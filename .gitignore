@@ -1,0 +1,33 @@
+# OS/editor
+.DS_Store
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+.venv/
+backend/.venv/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+backend/.env
+frontend/.env.local
+
+# Node/Next
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+
+# Build/runtime
+*.log
+
+# Workspace artifacts
+.kiro/
+wsl.localhost/
