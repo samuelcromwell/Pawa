@@ -2,6 +2,13 @@
 
 This repository contains a full-stack Q&A web app that integrates an LLM to generate structured study plans and learning guidance.
 
+## Live Deployment
+
+- Frontend: https://pawa-w9a8.vercel.app
+- Backend API base: https://pawa-eight.vercel.app
+- Backend Swagger docs: https://pawa-eight.vercel.app/docs
+- Backend health: https://pawa-eight.vercel.app/health
+
 ## Stack
 
 - Backend: FastAPI (Python)
@@ -33,13 +40,16 @@ the app returns a structured response including:
 1. Open a terminal in `backend/`.
 2. Ensure Python packaging tools are installed (Ubuntu/Debian):
    - `sudo apt update && sudo apt install -y python3-pip python3-venv`
-3. Create and activate a virtual environment.
+3. Create and activate a virtual environment:
+   - `python3 -m venv .venv`
+   - `source .venv/bin/activate`
 4. Install dependencies:
    - `pip install -r requirements.txt`
 5. Create an environment file:
    - copy `.env.example` to `.env`
-6. Add your OpenRouter API key in `.env`:
+6. Update `.env` values (minimum required):
    - `DEEPSEEK_API_KEY=...`
+   - `DEEPSEEK_MODEL=deepseek/deepseek-chat-v3-0324:free`
 7. Run the API server:
    - `uvicorn app.main:app --reload --host 0.0.0.0 --port 8000`
 
@@ -58,7 +68,11 @@ Swagger docs are available at:
    - `npm install`
 3. Create an environment file:
    - copy `.env.example` to `.env.local`
-4. Start the frontend:
+4. For local full-stack testing, keep:
+   - `NEXT_PUBLIC_API_BASE_URL=http://localhost:8000`
+   - For production frontend against deployed backend use:
+   - `NEXT_PUBLIC_API_BASE_URL=https://pawa-eight.vercel.app`
+5. Start the frontend:
    - `npm run dev`
 
 App URL:
@@ -108,8 +122,8 @@ This path avoids Render billing verification.
    - `FRONTEND_ORIGIN` = `http://localhost:3000` (temporary; update after frontend deploy)
 5. Click **Deploy**.
 6. After deploy, open these URLs to verify:
-   - `https://<your-backend-project>.vercel.app/health`
-   - `https://<your-backend-project>.vercel.app/docs`
+   - `https://pawa-eight.vercel.app/health`
+   - `https://pawa-eight.vercel.app/docs`
 7. Copy this backend base URL (without `/docs`).
 
 #### 2) Deploy frontend to Vercel second
@@ -125,9 +139,9 @@ This path avoids Render billing verification.
 
 1. Open backend project in Vercel -> **Settings -> Environment Variables**.
 2. Update `FRONTEND_ORIGIN` to your frontend URL.
-   - Example: `https://<your-frontend-project>.vercel.app`
+    - Current frontend URL: `https://pawa-w9a8.vercel.app`
    - To keep local dev too, use comma-separated values:
-     `http://localhost:3000,https://<your-frontend-project>.vercel.app`
+       `http://localhost:3000,https://pawa-w9a8.vercel.app`
 3. Redeploy backend (Vercel prompts for redeploy after env changes).
 
 #### 4) Final production checks
@@ -135,44 +149,6 @@ This path avoids Render billing verification.
 1. Frontend can submit question successfully.
 2. Frontend "API Docs" link opens backend Swagger page.
 3. Backend `/health` returns `{"status":"ok","environment":"production"}`.
-
----
-
-### Backend → Render (free tier)
-
-1. Go to [render.com](https://render.com) and sign up / log in.
-2. Click **New → Blueprint** and connect your GitHub repository.
-   - Render will detect `render.yaml` automatically and pre-fill all settings.
-3. In **Environment Variables**, set:
-   - `DEEPSEEK_API_KEY` — your OpenRouter API key
-   - `FRONTEND_ORIGIN` — leave blank for now (update after step 6)
-4. Click **Apply** to deploy. Wait for build to finish (~2 min).
-5. Copy the service URL — it will look like `https://study-sprint-api.onrender.com`.
-
-> **Note:** Render free tier spins down after 15 minutes of inactivity. The first request after sleep takes ~30 s to wake up. This is normal on the free plan.
-
----
-
-### Frontend → Vercel (free tier)
-
-1. Go to [vercel.com](https://vercel.com) and sign up / log in.
-2. Click **Add New → Project** and import your GitHub repository.
-3. Under **Root Directory** click **Edit** and set it to `frontend`.
-4. Under **Environment Variables** add:
-   - `NEXT_PUBLIC_API_BASE_URL` = the Render URL from step 5 above
-     (e.g. `https://study-sprint-api.onrender.com`)
-5. Click **Deploy**. Vercel builds and assigns a URL like `https://study-sprint.vercel.app`.
-
----
-
-### Final step — update CORS on Render
-
-Back in Render dashboard → your service → **Environment**:
-
-- Set `FRONTEND_ORIGIN` = your Vercel URL (e.g. `https://study-sprint.vercel.app`)
-  - To also keep local dev working, comma-separate both:
-    `http://localhost:3000,https://study-sprint.vercel.app`
-- Click **Save Changes** — Render redeploys automatically.
 
 ## VS Code Yellow Import Warnings
 
