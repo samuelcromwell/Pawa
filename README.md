@@ -93,6 +93,51 @@ App URL:
 
 ## Deployment
 
+### Recommended (No card): Vercel for both backend and frontend
+
+This path avoids Render billing verification.
+
+#### 1) Deploy backend to Vercel first
+
+1. Go to [vercel.com](https://vercel.com) and sign in.
+2. Click **Add New -> Project** and import this repository.
+3. Set **Root Directory** to `backend`.
+4. In **Environment Variables**, add:
+   - `DEEPSEEK_API_KEY` = your OpenRouter API key
+   - `APP_ENV` = `production`
+   - `FRONTEND_ORIGIN` = `http://localhost:3000` (temporary; update after frontend deploy)
+5. Click **Deploy**.
+6. After deploy, open these URLs to verify:
+   - `https://<your-backend-project>.vercel.app/health`
+   - `https://<your-backend-project>.vercel.app/docs`
+7. Copy this backend base URL (without `/docs`).
+
+#### 2) Deploy frontend to Vercel second
+
+1. In Vercel, click **Add New -> Project** again and import the same repository.
+2. Set **Root Directory** to `frontend`.
+3. In **Environment Variables**, add:
+   - `NEXT_PUBLIC_API_BASE_URL` = backend URL from step 1
+4. Click **Deploy**.
+5. Open frontend URL and test one question submission.
+
+#### 3) Final CORS update on backend
+
+1. Open backend project in Vercel -> **Settings -> Environment Variables**.
+2. Update `FRONTEND_ORIGIN` to your frontend URL.
+   - Example: `https://<your-frontend-project>.vercel.app`
+   - To keep local dev too, use comma-separated values:
+     `http://localhost:3000,https://<your-frontend-project>.vercel.app`
+3. Redeploy backend (Vercel prompts for redeploy after env changes).
+
+#### 4) Final production checks
+
+1. Frontend can submit question successfully.
+2. Frontend "API Docs" link opens backend Swagger page.
+3. Backend `/health` returns `{"status":"ok","environment":"production"}`.
+
+---
+
 ### Backend → Render (free tier)
 
 1. Go to [render.com](https://render.com) and sign up / log in.
