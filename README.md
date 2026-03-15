@@ -4,10 +4,20 @@ This repository contains a full-stack Q&A web app that integrates an LLM to gene
 
 ## Live Deployment
 
+Use these links directly if you only want to evaluate the submitted hosted app (no setup required):
+
 - Frontend: https://pawa-w9a8.vercel.app
 - Backend API base: https://pawa-eight.vercel.app
 - Backend Swagger docs: https://pawa-eight.vercel.app/docs
 - Backend health: https://pawa-eight.vercel.app/health
+
+## How To Use This Repository
+
+Choose one path depending on what you want:
+
+1. Hosted access (quick review): Use the links in **Live Deployment**.
+2. Local run (developer/recruiter machine): Follow **Local Setup** below.
+3. Host your own copy (new deployment): Follow **Self-Deployment (Vercel)** below.
 
 ## Stack
 
@@ -35,7 +45,9 @@ the app returns a structured response including:
 - `frontend/` Next.js client application
 - `PROMPTS.md` Prompt engineering notes and prompt versions used
 
-## Backend Setup
+## Local Setup
+
+### Backend Setup (Local)
 
 1. Open a terminal in `backend/`.
 2. Ensure Python packaging tools are installed (Ubuntu/Debian):
@@ -61,7 +73,7 @@ Swagger docs are available at:
 
 - `http://localhost:8000/docs`
 
-## Frontend Setup
+### Frontend Setup (Local)
 
 1. Open a terminal in `frontend/`.
 2. Install dependencies:
@@ -70,8 +82,8 @@ Swagger docs are available at:
    - copy `.env.example` to `.env.local`
 4. For local full-stack testing, keep:
    - `NEXT_PUBLIC_API_BASE_URL=http://localhost:8000`
-   - For production frontend against deployed backend use:
-   - `NEXT_PUBLIC_API_BASE_URL=https://pawa-eight.vercel.app`
+   - For production frontend against deployed backend, use:
+     `NEXT_PUBLIC_API_BASE_URL=https://pawa-eight.vercel.app`
 5. Start the frontend:
    - `npm run dev`
 
@@ -105,13 +117,13 @@ App URL:
 - API errors are normalized and surfaced with clear messages.
 - Frontend includes loading state, error handling, markdown rendering, and query history bonus.
 
-## Deployment
+## Self-Deployment (Vercel)
 
 ### Recommended (No card): Vercel for both backend and frontend
 
 This path avoids Render billing verification.
 
-#### 1) Deploy backend to Vercel first
+### 1) Deploy backend to Vercel first
 
 1. Go to [vercel.com](https://vercel.com) and sign in.
 2. Click **Add New -> Project** and import this repository.
@@ -126,7 +138,7 @@ This path avoids Render billing verification.
    - `https://pawa-eight.vercel.app/docs`
 7. Copy this backend base URL (without `/docs`).
 
-#### 2) Deploy frontend to Vercel second
+### 2) Deploy frontend to Vercel second
 
 1. In Vercel, click **Add New -> Project** again and import the same repository.
 2. Set **Root Directory** to `frontend`.
@@ -135,7 +147,7 @@ This path avoids Render billing verification.
 4. Click **Deploy**.
 5. Open frontend URL and test one question submission.
 
-#### 3) Final CORS update on backend
+### 3) Final CORS update on backend
 
 1. Open backend project in Vercel -> **Settings -> Environment Variables**.
 2. Update `FRONTEND_ORIGIN` to your frontend URL.
@@ -144,7 +156,7 @@ This path avoids Render billing verification.
        `http://localhost:3000,https://pawa-w9a8.vercel.app`
 3. Redeploy backend (Vercel prompts for redeploy after env changes).
 
-#### 4) Final production checks
+### 4) Final production checks
 
 1. Frontend can submit question successfully.
 2. Frontend "API Docs" link opens backend Swagger page.
