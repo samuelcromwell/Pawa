@@ -91,14 +91,43 @@ App URL:
 - API errors are normalized and surfaced with clear messages.
 - Frontend includes loading state, error handling, markdown rendering, and query history bonus.
 
-## Optional Deployment
+## Deployment
 
-This app can be deployed as:
+### Backend → Render (free tier)
 
-- Backend: Render, Railway, Fly.io, or any Docker-compatible host
-- Frontend: Vercel
+1. Go to [render.com](https://render.com) and sign up / log in.
+2. Click **New → Blueprint** and connect your GitHub repository.
+   - Render will detect `render.yaml` automatically and pre-fill all settings.
+3. In **Environment Variables**, set:
+   - `DEEPSEEK_API_KEY` — your OpenRouter API key
+   - `FRONTEND_ORIGIN` — leave blank for now (update after step 6)
+4. Click **Apply** to deploy. Wait for build to finish (~2 min).
+5. Copy the service URL — it will look like `https://study-sprint-api.onrender.com`.
 
-Set frontend `NEXT_PUBLIC_API_BASE_URL` to deployed backend URL.
+> **Note:** Render free tier spins down after 15 minutes of inactivity. The first request after sleep takes ~30 s to wake up. This is normal on the free plan.
+
+---
+
+### Frontend → Vercel (free tier)
+
+1. Go to [vercel.com](https://vercel.com) and sign up / log in.
+2. Click **Add New → Project** and import your GitHub repository.
+3. Under **Root Directory** click **Edit** and set it to `frontend`.
+4. Under **Environment Variables** add:
+   - `NEXT_PUBLIC_API_BASE_URL` = the Render URL from step 5 above
+     (e.g. `https://study-sprint-api.onrender.com`)
+5. Click **Deploy**. Vercel builds and assigns a URL like `https://study-sprint.vercel.app`.
+
+---
+
+### Final step — update CORS on Render
+
+Back in Render dashboard → your service → **Environment**:
+
+- Set `FRONTEND_ORIGIN` = your Vercel URL (e.g. `https://study-sprint.vercel.app`)
+  - To also keep local dev working, comma-separate both:
+    `http://localhost:3000,https://study-sprint.vercel.app`
+- Click **Save Changes** — Render redeploys automatically.
 
 ## VS Code Yellow Import Warnings
 
