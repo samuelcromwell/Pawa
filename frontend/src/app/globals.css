@@ -3,9 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --bg-1: #fff7ed;
-  --bg-2: #f0fdfa;
-  --panel: #ffffffcc;
+  --bg: #f3f4f6;
   --ink: #0f172a;
 }
 
@@ -17,10 +15,8 @@ body {
   margin: 0;
   min-height: 100vh;
   color: var(--ink);
-  background:
-    radial-gradient(circle at 10% 10%, #fde68a 0, transparent 35%),
-    radial-gradient(circle at 90% 0%, #6ee7b7 0, transparent 28%),
-    linear-gradient(160deg, var(--bg-1), var(--bg-2));
+  background: var(--bg);
+  font-family: var(--font-space-grotesk), sans-serif;
 }
 
 .prose-answer h2,

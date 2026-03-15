@@ -14,8 +14,8 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Travel Readiness AI",
-  description: "LLM-powered travel document Q&A assistant",
+  title: "Study Sprint AI",
+  description: "LLM-powered study-planning Q&A assistant",
 };
 
 export default function RootLayout({
