@@ -38,6 +38,16 @@ app.add_middleware(
 service = DeepSeekService(settings)
 
 
+@app.get("/", tags=["System"])
+async def root() -> dict[str, str]:
+    return {
+        "service": settings.app_name,
+        "status": "ok",
+        "health": "/health",
+        "docs": "/docs",
+    }
+
+
 @app.get("/health", tags=["System"])
 async def health_check() -> dict[str, str]:
     return {"status": "ok", "environment": settings.app_env}
